@@ -37,6 +37,8 @@ class CurrentSiteModelMixin(models.Model):
     
     sites = models.ManyToManyField(Site, blank=True, related_name="%(app_label)s_%(class)s_related")
     
+    objects = CurrentSiteManager()
+    
     class Meta:
         abstract = True
     
