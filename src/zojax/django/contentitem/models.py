@@ -29,6 +29,9 @@ class CurrentSiteManager(models.Manager):
             self.__is_validated = True
         return super(CurrentSiteManager, self).get_query_set().filter(models.Q(**{self.__field_name + '__in': [settings.SITE_ID]}) | models.Q(**{self.__field_name + '__isnull': True}))
 
+    def get_query_set_all(self):
+        return super(CurrentSiteManager, self).get_query_set()
+        
 
 class CurrentSiteModelMixin(models.Model):
     
