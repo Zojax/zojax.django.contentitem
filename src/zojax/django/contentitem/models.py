@@ -27,7 +27,8 @@ class CurrentSiteManager(models.Manager):
                 raise ValueError("%s couldn't find a field named %s in %s." % \
                     (self.__class__.__name__, self.__field_name, self.model._meta.object_name))
             self.__is_validated = True
-        return super(CurrentSiteManager, self).get_query_set().filter(models.Q(**{self.__field_name + '__in': [Site.objects.get_current().id]})
+        
+        return super(CurrentSiteManager, self).get_query_set().filter(models.Q(**{self.__field_name: Site.objects.get_current().id})
                                                                       #| models.Q(**{self.__field_name + '__isnull': True})
                                                                       )
 
@@ -37,7 +38,7 @@ class CurrentSiteManager(models.Manager):
 
 class CurrentSiteModelMixin(models.Model):
     
-    sites = models.ManyToManyField(Site, blank=True, related_name="%(app_label)s_%(class)s_related")
+    sites = models.ManyToManyField(Site, blank=True, related_name="%(app_label)s_%(class)s_related", default=[settings.SITE_ID])
     
     objects = CurrentSiteManager()
     
